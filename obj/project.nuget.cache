@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "hzwE9GCA24k=",
+  "success": true,
+  "projectFilePath": "/Users/magda/Desktop/LinqConsoleLab.PL/LinqConsoleLab.PL.csproj",
+  "expectedPackageFiles": [
+    "/Users/magda/.nuget/packages/microsoft.netcore.app.ref/9.0.14/microsoft.netcore.app.ref.9.0.14.nupkg.sha512",
+    "/Users/magda/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.14/microsoft.aspnetcore.app.ref.9.0.14.nupkg.sha512",
+    "/Users/magda/.nuget/packages/microsoft.netcore.app.host.osx-x64/9.0.14/microsoft.netcore.app.host.osx-x64.9.0.14.nupkg.sha512"
+  ],
+  "logs": []
+}
