@@ -153,9 +153,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
-        var students = DaneUczelni.Studenci.Distinct().OrderBy(city => city);
+        var students = DaneUczelni.Studenci.Select(s => s.Miasto)
+            .Distinct().OrderBy(miasto => miasto);;
 
-        return new[] { students.ToString() };
+        return students;
     }
 
     /// <summary>
@@ -247,7 +248,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie13_GrupowanieZapisowWedlugPrzedmiotu()
     {
-        throw Niezaimplementowano(nameof(Zadanie13_GrupowanieZapisowWedlugPrzedmiotu));
+        var groups = from z in DaneUczelni.Zapisy
+            join p in DaneUczelni.Przedmioty on z.PrzedmiotId equals p.Id
+            group z by p.Nazwa into g
+            select $"{g.Key} {g.Count()}";
+
+        return groups;
     }
 
     /// <summary>
@@ -264,7 +270,13 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie14_SredniaOcenaNaPrzedmiot()
     {
-        throw Niezaimplementowano(nameof(Zadanie14_SredniaOcenaNaPrzedmiot));
+        var avg = from p in DaneUczelni.Przedmioty
+            join z in DaneUczelni.Zapisy on p.Id equals z.PrzedmiotId
+            where z.OcenaKoncowa != null
+            group z by p.Nazwa into g
+            select $"{g.Key} {g.Average(s => s.OcenaKoncowa)}";
+
+        return avg.ToList();
     }
 
     /// <summary>
@@ -280,7 +292,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie15_ProwadzacyILiczbaPrzedmiotow()
     {
-        throw Niezaimplementowano(nameof(Zadanie15_ProwadzacyILiczbaPrzedmiotow));
+        var c = from pr in DaneUczelni.Prowadzacy
+            join p in DaneUczelni.Przedmioty 
+                on pr.Id equals p.ProwadzacyId into grupa
+            select $"{pr.Imie} {pr.Nazwisko} {grupa.Count()}";
+
+        return c.ToList();
     }
 
     /// <summary>
@@ -297,7 +314,15 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie16_NajwyzszaOcenaKazdegoStudenta()
     {
-        throw Niezaimplementowano(nameof(Zadanie16_NajwyzszaOcenaKazdegoStudenta));
+        var res = from s in DaneUczelni.Studenci
+            join z in DaneUczelni.Zapisy on s.Id equals z.StudentId
+            where z.OcenaKoncowa != null
+            group z by new { s.Imie, s.Nazwisko } into g
+            select $"{g.Key.Imie} {g.Key.Nazwisko} {g.Max(x => x.OcenaKoncowa)}";
+
+        return res.ToList();
+          
+           
     }
 
     /// <summary>
